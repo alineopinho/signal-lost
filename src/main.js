@@ -9,13 +9,31 @@ const player = {
   speed: 4
 };
 
-const fragment = {
-  x: 650,
-  y: 180,
-  radius: 10,
-  color: "#ffd84a",
-  collected: false
-};
+const fragments = [
+  {
+    x: 650,
+    y: 180,
+    radius: 10,
+    color: "#ffd84a",
+    collected: false
+  },
+  {
+    x: 180,
+    y: 120,
+    radius: 10,
+    color: "#ffd84a",
+    collected: false
+  },
+  {
+    x: 620,
+    y: 390,
+    radius: 10,
+    color: "#ffd84a",
+    collected: false
+  }
+];
+
+let collectedFragments = 0;
 
 const keys = {};
 
@@ -68,43 +86,59 @@ function drawPlayer() {
   ctx.closePath();
 }
 
-function drawFragment() {
-  if (fragment.collected) {
-    return;
-  }
+function drawFragments() {
+  fragments.forEach((fragment) => {
+    if (fragment.collected) {
+      return;
+    }
 
-  ctx.beginPath();
-  ctx.arc(fragment.x, fragment.y, fragment.radius, 0, Math.PI * 2);
-  ctx.fillStyle = fragment.color;
-  ctx.fill();
-  ctx.closePath();
+    ctx.beginPath();
+    ctx.arc(fragment.x, fragment.y, fragment.radius, 0, Math.PI * 2);
+    ctx.fillStyle = fragment.color;
+    ctx.fill();
+    ctx.closePath();
+  });
 }
 
-function checkFragmentCollision() {
-  if (fragment.collected) {
-    return;
-  }
+function drawHud() {
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "18px monospace";
+  ctx.fillText(
+    `Fragmentos: ${collectedFragments}/${fragments.length}`,
+    20,
+    30
+  );
+}
 
-  const dx = player.x - fragment.x;
-  const dy = player.y - fragment.y;
+function checkFragmentCollisions() {
+  fragments.forEach((fragment) => {
+    if (fragment.collected) {
+      return;
+    }
 
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  const minimumDistance = player.radius + fragment.radius;
+    const dx = player.x - fragment.x;
+    const dy = player.y - fragment.y;
 
-  if (distance < minimumDistance) {
-    fragment.collected = true;
-  }
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const minimumDistance = player.radius + fragment.radius;
+
+    if (distance < minimumDistance) {
+      fragment.collected = true;
+      collectedFragments++;
+    }
+  });
 }
 
 function render() {
   drawBackground();
-  drawFragment();
+  drawFragments();
   drawPlayer();
+  drawHud();
 }
 
 function gameLoop() {
   updatePlayer();
-  checkFragmentCollision();
+  checkFragmentCollisions();
   render();
 
   requestAnimationFrame(gameLoop);
