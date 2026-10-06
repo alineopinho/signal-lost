@@ -68,12 +68,6 @@ function drawPlayer() {
   ctx.closePath();
 }
 
-const dx = player.x - fragment.x;
-const dy = player.y - fragment.y;
-
-Math.sqrt(dx * dx + dy * dy)
-player.radius + fragment.radius
-
 function drawFragment() {
   if (fragment.collected) {
     return;
