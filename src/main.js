@@ -51,21 +51,34 @@ function drawBackground() {
 }
 
 function updatePlayer() {
+  let moveX = 0;
+  let moveY = 0;
+
   if (keys["w"] || keys["ArrowUp"]) {
-    player.y -= player.speed;
+    moveY -= 1;
   }
 
   if (keys["s"] || keys["ArrowDown"]) {
-    player.y += player.speed;
+    moveY += 1;
   }
 
   if (keys["a"] || keys["ArrowLeft"]) {
-    player.x -= player.speed;
+    moveX -= 1;
   }
 
   if (keys["d"] || keys["ArrowRight"]) {
-    player.x += player.speed;
+    moveX += 1;
   }
+
+  const length = Math.sqrt(moveX * moveX + moveY * moveY);
+
+  if (length > 0) {
+    moveX /= length;
+    moveY /= length;
+  }
+
+  player.x += moveX * player.speed;
+  player.y += moveY * player.speed;
 
   player.x = Math.max(
     player.radius,
