@@ -73,4 +73,3 @@ function gameLoop() {
 }
 
 gameLoop();
-render();
