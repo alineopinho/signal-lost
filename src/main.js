@@ -1,3 +1,5 @@
+import { keys } from "./input.js";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -34,16 +36,6 @@ const fragments = [
 ];
 
 let collectedFragments = 0;
-
-const keys = {};
-
-window.addEventListener("keydown", (event) => {
-  keys[event.key] = true;
-});
-
-window.addEventListener("keyup", (event) => {
-  keys[event.key] = false;
-});
 
 function drawBackground() {
   ctx.fillStyle = "#07111f";
