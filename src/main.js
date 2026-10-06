@@ -9,6 +9,14 @@ const player = {
   speed: 4
 };
 
+const fragment = {
+  x: 650,
+  y: 180,
+  radius: 10,
+  color: "#ffd84a",
+  collected: false
+};
+
 const keys = {};
 
 window.addEventListener("keydown", (event) => {
@@ -60,13 +68,49 @@ function drawPlayer() {
   ctx.closePath();
 }
 
+const dx = player.x - fragment.x;
+const dy = player.y - fragment.y;
+
+Math.sqrt(dx * dx + dy * dy)
+player.radius + fragment.radius
+
+function drawFragment() {
+  if (fragment.collected) {
+    return;
+  }
+
+  ctx.beginPath();
+  ctx.arc(fragment.x, fragment.y, fragment.radius, 0, Math.PI * 2);
+  ctx.fillStyle = fragment.color;
+  ctx.fill();
+  ctx.closePath();
+}
+
+function checkFragmentCollision() {
+  if (fragment.collected) {
+    return;
+  }
+
+  const dx = player.x - fragment.x;
+  const dy = player.y - fragment.y;
+
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const minimumDistance = player.radius + fragment.radius;
+
+  if (distance < minimumDistance) {
+    fragment.collected = true;
+  }
+}
+
 function render() {
   drawBackground();
+  drawFragment();
   drawPlayer();
 }
 
 function gameLoop() {
   updatePlayer();
+  checkFragmentCollision();
   render();
 
   requestAnimationFrame(gameLoop);
