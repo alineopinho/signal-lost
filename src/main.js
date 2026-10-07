@@ -52,14 +52,13 @@ function render() {
 }
 
 function gameLoop() {
-  updatePlayer(canvas);
-  checkFragmentCollisions(player);
+  if (gameState.status === "PLAYING") {
+    updatePlayer(canvas);
+    checkFragmentCollisions(player);
 
-  if (
-    gameState.status === "PLAYING" &&
-    getCollectedFragments() === getTotalFragments()
-  ) {
-    setGameState("LEVEL_COMPLETE");
+    if (getCollectedFragments() === getTotalFragments()) {
+      setGameState("LEVEL_COMPLETE");
+    }
   }
 
   render();
