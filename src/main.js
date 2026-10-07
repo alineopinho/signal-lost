@@ -5,11 +5,10 @@ import {
   getCollectedFragments,
   getTotalFragments
 } from "./fragments.js";
+import { gameState, setGameState } from "./gameState.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-
-let gameWon = false;
 
 function drawBackground() {
   ctx.fillStyle = "#07111f";
@@ -27,7 +26,7 @@ function drawHud() {
 }
 
 function drawWinMessage() {
-  if (!gameWon) {
+  if (gameState.status !== "LEVEL_COMPLETE") {
     return;
   }
 
@@ -56,8 +55,11 @@ function gameLoop() {
   updatePlayer(canvas);
   checkFragmentCollisions(player);
 
-  if (getCollectedFragments() === getTotalFragments()) {
-    gameWon = true;
+  if (
+    gameState.status === "PLAYING" &&
+    getCollectedFragments() === getTotalFragments()
+  ) {
+    setGameState("LEVEL_COMPLETE");
   }
 
   render();
