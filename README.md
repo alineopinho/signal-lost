@@ -26,7 +26,7 @@ O jogador controla uma entidade digital responsável por recuperar fragmentos de
 ## Controles
 
 | Ação | Teclas |
-|---|---|
+| --- | --- |
 | Mover para cima | `W` ou `↑` |
 | Mover para baixo | `S` ou `↓` |
 | Mover para esquerda | `A` ou `←` |
